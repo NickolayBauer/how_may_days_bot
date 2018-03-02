@@ -1,6 +1,7 @@
 import config
 import telebot
 import datetime
+import time as t
 import bs4
 import requests
 from telebot import types
@@ -78,7 +79,8 @@ def days(message):
     try:
         bot.send_message(message.chat.id, h3[int(message.text)].getText() + '\n'+(' '.join(p3[int(message.text)].getText().split()) ))
     except IndexError:
-        bot.send_message(message.chat.id, "воу-воу, полегче, не надо так клацать по кнопкам")
+        bot.send_message(message.chat.id, "на этот день пока не могу сказать")
+
 
 
 

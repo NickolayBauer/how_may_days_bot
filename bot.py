@@ -62,11 +62,11 @@ def get_tor(message):
     button_4 = types.KeyboardButton(text="4")
     button_5 = types.KeyboardButton(text="5")
     button_6 = types.KeyboardButton(text="6")
-    button_7 = types.KeyboardButton(text="7" )
-    button_7 = types.KeyboardButton(text="/home")
+    button_7 = types.KeyboardButton(text="7")
+    button_8 = types.KeyboardButton(text="/home")
     keyboard.add(button_0,button_1,button_2,
                  button_3,button_4,button_5,
-                 button_6,button_7)
+                 button_6,button_7,button_8)
     bot.send_message(message.chat.id, "на сколько дней тебе показать погоду?",
                      reply_markup=keyboard)
 

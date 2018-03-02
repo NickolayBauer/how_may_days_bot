@@ -38,15 +38,17 @@ def get_today(message):
     s = requests.get('https://www.meteoservice.ru/weather/text/moskva')
     b = bs4.BeautifulSoup(s.text, "html.parser")
     p3 = b.select('.words p')
-    bot.send_message(message.chat.id, p3[0].getText())
+    h3 = b.select('.text_forecast h3')
+    bot.send_message(message.chat.id, h3[0].getText()+ '\n' + (' '.join(p3[0].getText().split()) ))
 
 
 @bot.message_handler(func = lambda msg: msg.text == 'Скажи погоду на завтра')
 def get_tor(message):
     s = requests.get('https://www.meteoservice.ru/weather/text/moskva')
     b = bs4.BeautifulSoup(s.text, "html.parser")
+    h3 = b.select('.text_forecast h3')
     p3 = b.select('.words p')
-    bot.send_message(message.chat.id, p3[1].getText())
+    bot.send_message(message.chat.id,h3[1].getText()+ '\n' + (' '.join(p3[1].getText().split()) ))
 
 
 @bot.message_handler(func = lambda msg: msg.text == 'Скажи погоду на какой нибудь-другой день')
@@ -74,7 +76,7 @@ def days(message):
     b = bs4.BeautifulSoup(s.text, "html.parser")
     p3 = b.select('.words p')
     h3 = b.select('.text_forecast h3')
-    bot.send_message(message.chat.id,h3[int(message.text)].getText()+ '\n'+ p3[int(message.text)].getText())
+    bot.send_message(message.chat.id, h3[int(message.text)].getText()+ '\n'+(' '.join(p3[int(message.text)].getText().split()) ))
 
 
 @bot.message_handler(commands=["help"])

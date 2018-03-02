@@ -73,8 +73,8 @@ def days(message):
     s = requests.get('https://www.meteoservice.ru/weather/text/moskva')
     b = bs4.BeautifulSoup(s.text, "html.parser")
     p3 = b.select('.words p')
-
-    bot.send_message(message.chat.id, p3[int(message.text)].getText())
+    h3 = b.select('.text_forecast h3')
+    bot.send_message(message.chat.id,h3[int(message.text)].getText()+ '\n'+ p3[int(message.text)].getText())
 
 
 @bot.message_handler(commands=["help"])

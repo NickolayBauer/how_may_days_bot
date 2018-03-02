@@ -15,8 +15,7 @@ def get_start(message):
     button_today = types.KeyboardButton(text = "Скажи погоду на сегодня")
     button_tor = types.KeyboardButton(text = "Скажи погоду на завтра")
     button_anyday = types.KeyboardButton(text = "Скажи погоду на какой нибудь-другой день")
-    button_help = types.KeyboardButton(text="/help")
-    keyboard.add(button_summer, button_today,button_tor, button_help, button_anyday)
+    keyboard.add(button_summer, button_today,button_tor, button_anyday)
     bot.send_message(message.chat.id,"Я забагованная хреновина, не ругайся, может что и смогу",
                      reply_markup=keyboard)
 
@@ -76,15 +75,12 @@ def days(message):
     b = bs4.BeautifulSoup(s.text, "html.parser")
     p3 = b.select('.words p')
     h3 = b.select('.text_forecast h3')
-    bot.send_message(message.chat.id, h3[int(message.text)].getText()+ '\n'+(' '.join(p3[int(message.text)].getText().split()) ))
+    try:
+        bot.send_message(message.chat.id, h3[int(message.text)].getText() + '\n'+(' '.join(p3[int(message.text)].getText().split()) ))
+    except IndexError:
+        bot.send_message(message.chat.id, "воу-воу, полегче, не надо так клацать по кнопкам")
 
 
-@bot.message_handler(commands=["help"])
-def get_summer(message):
-    bot.send_message(message.chat.id,
-                     "привет, холодный кусок мяса, "
-                     "я подарю тебе надежду в этом ледяном аду, "
-                     "я подарю тебе веру в то, что рано или поздно придёт тепло")
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)

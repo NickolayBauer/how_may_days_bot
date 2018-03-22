@@ -1,7 +1,8 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import config
 import telebot
 import datetime
-import time as t
 import bs4
 import requests
 from telebot import types
@@ -10,7 +11,7 @@ bot = telebot.TeleBot(config.token)
 
 @bot.message_handler(commands=["start", "home"])
 def get_start(message):
-
+    config.flag_day = False
     keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
     button_summer = types.KeyboardButton(text="Сколько дней до лета?")
     button_today = types.KeyboardButton(text = "Скажи погоду на сегодня")
@@ -52,7 +53,7 @@ def get_tor(message):
 
 
 @bot.message_handler(func = lambda msg: msg.text == 'Скажи погоду на какой нибудь-другой день')
-def get_tor(message):
+def get_top(message):
     config.flag_day = True
     keyboard = types.ReplyKeyboardMarkup(row_width=3, resize_keyboard=True)
     button_0 = types.KeyboardButton(text="0")
@@ -72,6 +73,7 @@ def get_tor(message):
 
 @bot.message_handler(func = lambda msg: config.flag_day == True)
 def days(message):
+
     s = requests.get('https://www.meteoservice.ru/weather/text/moskva')
     b = bs4.BeautifulSoup(s.text, "html.parser")
     p3 = b.select('.words p')
@@ -82,7 +84,9 @@ def days(message):
         bot.send_message(message.chat.id, "на этот день пока не могу сказать")
 
 
-
+@bot.message_handler(func = lambda msg: msg.text not in config.mass_try)
+def get_try(msg):
+    bot.send_message(msg.chat.id, "используй клавиатуру")
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)
